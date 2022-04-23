@@ -12,8 +12,6 @@ client = discord.Client()
 
 central = pytz.timezone("US/Central")
 japan = pytz.timezone("Japan")
-cst = datetime.datetime.now(central)
-jst = datetime.datetime.now(japan)
 
 @client.event
 async def on_ready():
@@ -25,7 +23,7 @@ async def on_message(message):
         return
 
     if message.content.lower() == "!japantime" or message.content.lower() == "jst_bot, what time is it in glorious nippon?":
-        await message.channel.send(jst.strftime("It is %I:%M%p on %A, %B %d %Y desu."))
+        await message.channel.send(datetime.datetime.now(japan).strftime("It is %I:%M%p on %A, %B %d %Y desu~."))
     elif message.content.lower() == "!kansastime":
-        await message.channel.send(cst.strftime("It is %I:%M%p on %A, %B %d %Y."))
+        await message.channel.send(datetime.datetime.now(central).strftime("It is %I:%M%p on %A, %B %d %Y."))
 client.run(TOKEN)
