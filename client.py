@@ -6,16 +6,14 @@ from dotenv import load_dotenv
 import datetime
 import pytz
 
-central = pytz.timezone("US/Central")
-japan = pytz.timezone("Japan")
-
-cst = datetime.datetime.now(central)
-jst = datetime.datetime.now(japan)
-
 load_dotenv()
 TOKEN = os.getenv("DISCORD_TOKEN")
-
 client = discord.Client()
+
+central = pytz.timezone("US/Central")
+japan = pytz.timezone("Japan")
+cst = datetime.datetime.now(central)
+jst = datetime.datetime.now(japan)
 
 @client.event
 async def on_ready():
@@ -26,8 +24,8 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.lower() == "!jst_bot":
-        await message.channel.send(cst.strftime("Central Time: %I:%M%p on %A, %B %d %Y"))
-        await message.channel.send(jst.strftime("Japan Time: %I:%M%p on %A, %B %d %Y desu")) 
-
+    if message.content.lower() == "!japantime" or message.content.lower() == "jst_bot, what time is it in glorious nippon?":
+        await message.channel.send(jst.strftime("It is %I:%M%p on %A, %B %d %Y desu."))
+    elif message.content.lower() == "!kansastime":
+        await message.channel.send(cst.strftime("It is %I:%M%p on %A, %B %d %Y."))
 client.run(TOKEN)
